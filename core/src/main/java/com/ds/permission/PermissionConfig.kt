@@ -7,21 +7,22 @@ class PermissionConfig(
     val permissions: ArrayList<String>,
     // 权限说明弹窗的内容
     val explanation: String?,
-    showInstructionDialog: Boolean,
-    showSysSettingDialog: Boolean
+    // 是否显示权限说明弹窗
+    var showInstructionDialog: Boolean = true,
+    // 是否显示提示前往系统权限设置弹窗,有时间间隔限制
+    var showSysSettingDialog: Boolean = true,
+    // 忽略时间间隔限制展示设置弹窗
+    var forceShowSysSettingDialog: Boolean = false
 ) {
 
-    // 是否显示权限说明弹窗
-    var isShowInstructionDialog = true
-
-    //是否显示提示前往系统权限设置弹窗
-    var isShowSysSettingDialog = true
 
     class Builder {
         private val permissions = ArrayList<String>()
         private var explanation: String? = null
         private var showInstructionDialog = true
         private var showSysSettingDialog = true
+        private var forceShowSysSettingDialog = false
+
         fun addPermission(permission: String): Builder {
             permissions.add(permission)
             return this
@@ -46,14 +47,15 @@ class PermissionConfig(
             this.showSysSettingDialog = showSysSettingDialog
             return this
         }
+        fun setForceShowSysSettingDialog(forceShowSysSettingDialog: Boolean): Builder {
+            this.forceShowSysSettingDialog = forceShowSysSettingDialog
+            return this
+        }
+
 
         fun build(): PermissionConfig {
-            return PermissionConfig(permissions, explanation, showInstructionDialog, showSysSettingDialog)
+            return PermissionConfig(permissions, explanation, showInstructionDialog, showSysSettingDialog, forceShowSysSettingDialog)
         }
     }
 
-    init {
-        isShowInstructionDialog = showInstructionDialog
-        isShowSysSettingDialog = showSysSettingDialog
-    }
 }

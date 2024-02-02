@@ -61,17 +61,17 @@ object PermissionDialogUtil {
     }
 
     fun checkAndShowSettingDialog(activity: Activity?, config: PermissionConfig) {
+        if (activity == null) {
+            return
+        }
         val unrequestedPermissionsArray: ArrayList<String> = ArrayList()
         for (permission in config.permissions) {
             if (!TextUtils.isEmpty(permission) && !PermissionUtils.check(activity, permission)) {
                 unrequestedPermissionsArray.add(permission)
             }
         }
-        if (activity != null && checkAutoShowAskNoMoreDialogTime(
-                activity,
-                unrequestedPermissionsArray
-            ) && config.isShowSysSettingDialog
-        ) {
+        val showSysDialog = (config.showSysSettingDialog && checkAutoShowAskNoMoreDialogTime(activity, unrequestedPermissionsArray)) || config.forceShowSysSettingDialog
+        if (showSysDialog) {
             PermissionUtils.checkAndPromptSetting(
                 activity,
                 unrequestedPermissionsArray.toTypedArray(),

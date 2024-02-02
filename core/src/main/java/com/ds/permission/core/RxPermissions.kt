@@ -317,7 +317,7 @@ class RxPermissions : LifecycleObserver {
             val unrequestedPermissionsArray = unrequestedPermissions.toTypedArray()
 
             val activity = getActivity()
-            if (activity != null && (permissionConfig.isShowInstructionDialog)) {
+            if (activity != null && (permissionConfig.showInstructionDialog)) {
                 if (mRxPermissionsFragment.get().get()?.dialog != null) {
                     mRxPermissionsFragment.get().get()?.dialog?.dismiss()
                     mRxPermissionsFragment.get().get()?.dialog = null
